@@ -4,4 +4,122 @@ const auth = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
+router.post("/", auth, async (req, res) => {
+
+    try {
+
+        const todo = await Todo.create({
+
+            title: req.body.title,
+
+            user: req.user.id
+
+        });
+
+        res.status(201).json(todo);
+
+    } catch (error) {
+
+        res.status(500).json({
+
+            message: error.message
+
+        });
+
+    }
+
+});
+
+router.get("/", auth, async (req, res) => {
+
+    try {
+
+        const todos = await Todo.find({
+            user: req.user.id
+        });
+
+        res.status(200).json(todos);
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});
+
+router.put("/:id", auth, async (req, res) => {
+
+    try {
+
+        const todo = await Todo.findOneAndUpdate(
+
+            {
+                _id: req.params.id,
+                user: req.user.id
+            },
+
+            req.body,
+
+            {
+                new: true
+            }
+
+        );
+
+        if (!todo) {
+
+            return res.status(404).json({
+                message: "Todo not found"
+            });
+
+        }
+
+        res.json(todo);
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});
+
+router.delete("/:id", auth, async (req, res) => {
+
+    try {
+
+        const todo = await Todo.findOneAndDelete({
+
+            _id: req.params.id,
+            user: req.user.id
+
+        });
+
+        if (!todo) {
+
+            return res.status(404).json({
+                message: "Todo not found"
+            });
+
+        }
+
+        res.json({
+            message: "Todo Deleted"
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});
+
 module.exports = router;
