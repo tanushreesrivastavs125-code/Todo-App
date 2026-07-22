@@ -9,7 +9,7 @@ form.addEventListener("submit", async (e) => {
         password: document.getElementById("password").value
     };
 
-    const res = await fetch("http://localhost:5000/api/auth/login", {
+    const res = await fetch("https://todo-backend-slv2.onrender.com/api/auth/login", {
 
         method: "POST",
 
