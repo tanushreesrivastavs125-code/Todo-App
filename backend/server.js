@@ -10,19 +10,7 @@ const app = express();
 
 connectDB();
 
-const corsOptions = {
-  origin: "https://todo-appf.netlify.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
-
-app.use(
-  cors({
-    origin: "https://todo-appf.netlify.app",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors());
 
 app.use(express.json());
 
