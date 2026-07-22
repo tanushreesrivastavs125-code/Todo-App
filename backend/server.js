@@ -14,7 +14,15 @@ connectDB();
 const authRoutes = require("./routes/auth");
 
 
-app.use(cors());
+const cors = require("cors");
+
+app.use(cors({
+  origin: [
+    "http://localhost:5500",
+    "https://todo-appf.netlify.app"
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
